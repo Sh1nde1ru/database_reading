@@ -10,17 +10,29 @@ class Reading extends StatefulWidget {
 
 class _ReadingState extends State<Reading> {
   var teplota;
-  var output;
+  var vlhkost;
+  var outputTemp;
+  var outputHum;
   @override
   void initState() {
     super.initState();
-    DatabaseReference ref =
+    DatabaseReference humRef =
         FirebaseDatabase.instance.ref("outputData/humidity");
-    Stream<DatabaseEvent> stream = ref.onValue;
-    stream.listen((DatabaseEvent event) {
+    Stream<DatabaseEvent> streamHum = humRef.onValue;
+    streamHum.listen((event) {
+      vlhkost = event.snapshot.value;
+      setState(() {
+        outputHum = vlhkost;
+      });
+    });
+
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("outputData/temperature");
+    Stream<DatabaseEvent> streamTemp = ref.onValue;
+    streamTemp.listen((DatabaseEvent event) {
       teplota = event.snapshot.value;
       setState(() {
-        output = teplota;
+        outputTemp = teplota;
       });
     });
   }
@@ -29,26 +41,53 @@ class _ReadingState extends State<Reading> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
-          padding: EdgeInsets.only(top: 20, bottom: 20),
-          height: 200,
-          width: 200,
-          color: Colors.amber,
-          child: Center(
-            child: Column(children: [
-              Text(
-                "vlhkost:",
-                style: TextStyle(fontSize: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 20, bottom: 20),
+              margin: EdgeInsets.all(5),
+              height: 200,
+              width: 200,
+              color: Colors.amber,
+              child: Center(
+                child: Column(children: [
+                  Text(
+                    "vlhkost:",
+                    style: TextStyle(fontSize: 40),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    outputHum.toString() + "%",
+                    style: TextStyle(fontSize: 70),
+                  )
+                ]),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                output.toString() + "%",
-                style: TextStyle(fontSize: 70),
-              )
-            ]),
-          ),
+            ),
+            Container(
+                padding: EdgeInsets.only(top: 20, bottom: 20),
+                margin: EdgeInsets.all(5),
+                height: 200,
+                width: 200,
+                color: Colors.amber,
+                child: Center(
+                  child: Column(children: [
+                    Text(
+                      "teplota:",
+                      style: TextStyle(fontSize: 40),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      outputTemp.toString() + "°C",
+                      style: TextStyle(fontSize: 70),
+                    )
+                  ]),
+                ))
+          ],
         ),
       ),
     );
