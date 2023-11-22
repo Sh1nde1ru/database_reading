@@ -1,3 +1,5 @@
+import 'package:database_reading/models/order_model.dart';
+import 'package:database_reading/pages/ssid_setup.dart';
 import 'package:flutter/material.dart';
 
 class HomePAge extends StatefulWidget {
@@ -8,41 +10,39 @@ class HomePAge extends StatefulWidget {
 }
 
 class _HomePAgeState extends State<HomePAge> {
-  @override
-  void initState() {
-    super.initState();
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = <Widget>[
+    Reading(),
+    SsidSetup(),
+  ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("text")));
-  }
-/*
-  void retrieveOutputData() {
-    dbRef.child("outputData").onChildChanged.listen((data) {
-      OutputData outputData = OutputData.fromJson(data.snapshot.value as Map);
-      Output output = Output(key: data.snapshot.key, outputData: outputData);
-      outputList.add(output);
-      setState(() {});
-    });
-  }
-
-  Widget outputWidget(Output outputList) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-      child: Row(children: [
-        Container(
-          width: 200,
-          height: 200,
-          child: Text(outputList.outputData!.humidity!),
-        ),
-        Container(
-          width: 200,
-          height: 200,
-          child: Text(outputList.outputData!.temperature!),
-        )
-      ]),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Smart Aquarium"),
+      ),
+      body: _widgetOptions[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber,
+        onTap: _onItemTapped,
+      ),
     );
-  }*/
+  }
 }
