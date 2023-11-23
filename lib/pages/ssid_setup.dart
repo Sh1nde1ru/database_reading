@@ -10,14 +10,7 @@ class SsidSetup extends StatefulWidget {
 class _SsidSetupState extends State<SsidSetup> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    String name = "";
-    String password = "";
-    setState(() {
-      name = ssid.text;
-      password = pass.text;
-    });
   }
 
   TextEditingController ssid = TextEditingController();
