@@ -40,55 +40,48 @@ class _ReadingState extends State<Reading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 20, bottom: 20),
+            margin: EdgeInsets.only(top: 20, left: 5, right: 10),
+            height: 150,
+            width: 150,
+            color: Colors.amber,
+            child: Center(
+              child: Column(children: [
+                Text(
+                  "vlhkost:",
+                  style: TextStyle(fontSize: 40),
+                ),
+                Text(
+                  outputHum.toString() + "%",
+                  style: TextStyle(fontSize: 50),
+                )
+              ]),
+            ),
+          ),
+          Container(
               padding: EdgeInsets.only(top: 20, bottom: 20),
-              margin: EdgeInsets.all(5),
-              height: 200,
-              width: 200,
+              margin: EdgeInsets.only(top: 20, left: 5, right: 10),
+              height: 150,
+              width: 150,
               color: Colors.amber,
               child: Center(
                 child: Column(children: [
                   Text(
-                    "vlhkost:",
+                    "teplota:",
                     style: TextStyle(fontSize: 40),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Text(
-                    outputHum.toString() + "%",
-                    style: TextStyle(fontSize: 70),
+                    outputTemp.toString() + "°C",
+                    style: TextStyle(fontSize: 50),
                   )
                 ]),
-              ),
-            ),
-            Container(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
-                margin: EdgeInsets.all(5),
-                height: 200,
-                width: 200,
-                color: Colors.amber,
-                child: Center(
-                  child: Column(children: [
-                    Text(
-                      "teplota:",
-                      style: TextStyle(fontSize: 40),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      outputTemp.toString() + "°C",
-                      style: TextStyle(fontSize: 70),
-                    )
-                  ]),
-                ))
-          ],
-        ),
+              ))
+        ],
       ),
     );
   }

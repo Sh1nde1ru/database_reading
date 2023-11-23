@@ -1,4 +1,5 @@
 import 'package:database_reading/models/order_model.dart';
+import 'package:database_reading/pages/color_picker.dart';
 import 'package:database_reading/pages/ssid_setup.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ class _HomePAgeState extends State<HomePAge> {
   static const List<Widget> _widgetOptions = <Widget>[
     Reading(),
     SsidSetup(),
+    ColorWheel(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -25,7 +27,7 @@ class _HomePAgeState extends State<HomePAge> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Smart Aquarium"),
+        title: const Text("Smart Aquarium"),
       ),
       body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -37,6 +39,10 @@ class _HomePAgeState extends State<HomePAge> {
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.lightbulb),
+            label: 'Color',
           ),
         ],
         currentIndex: _selectedIndex,
