@@ -1,4 +1,5 @@
-import 'package:board_datetime_picker/board_datetime_picker.dart';
+import 'package:database_reading/util/hour.dart';
+import 'package:database_reading/util/minutes.dart';
 import 'package:flutter/material.dart';
 
 class LightControl extends StatefulWidget {
@@ -9,30 +10,46 @@ class LightControl extends StatefulWidget {
 }
 
 class _LightControlState extends State<LightControl> {
-  var hour;
-  var minutes;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
-            OutlinedButton(
-                onPressed: () async {
-                  final result = await showBoardDateTimePicker(
-                    context: context,
-                    pickerType: DateTimePickerType.time,
-                  );
-                  if (result != null) {
-                    setState(
-                        () => {hour = result.hour, minutes = result.minute});
-                  } else {
-                    setState(() => {hour = 00, minutes = 00});
-                  }
-                },
-                child: Text("Light on")),
-            Text(BoardDateFormat('hh/mm').format(hour))
+            Expanded(
+              child: Container(
+                height: 100,
+                color: Colors.grey.shade400,
+                child: ListWheelScrollView.useDelegate(
+                  itemExtent: 50,
+                  perspective: 0.005,
+                  diameterRatio: 1.2,
+                  physics: FixedExtentScrollPhysics(),
+                  childDelegate: ListWheelChildBuilderDelegate(
+                      childCount: 24,
+                      builder: (context, index) {
+                        return MyHours(hours: index);
+                      }),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.grey.shade400,
+                height: 100,
+                child: ListWheelScrollView.useDelegate(
+                  itemExtent: 50,
+                  perspective: 0.005,
+                  diameterRatio: 1.2,
+                  physics: FixedExtentScrollPhysics(),
+                  childDelegate: ListWheelChildBuilderDelegate(
+                      childCount: 60,
+                      builder: (context, index) {
+                        return MyMinutes(mins: index);
+                      }),
+                ),
+              ),
+            ),
           ],
         ),
       ),
