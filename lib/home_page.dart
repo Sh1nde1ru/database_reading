@@ -1,5 +1,6 @@
 import 'package:database_reading/models/order_model.dart';
 import 'package:database_reading/pages/color_picker.dart';
+import 'package:database_reading/pages/light_control.dart';
 import 'package:database_reading/pages/ssid_setup.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,7 @@ class _HomePAgeState extends State<HomePAge> {
     Reading(),
     SsidSetup(),
     ColorWheel(),
+    LightControl(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -26,13 +28,11 @@ class _HomePAgeState extends State<HomePAge> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Smart Aquarium"),
-      ),
       body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            backgroundColor: Colors.blue,
             icon: Icon(Icons.home),
             label: 'Home',
           ),
@@ -43,6 +43,10 @@ class _HomePAgeState extends State<HomePAge> {
           BottomNavigationBarItem(
             icon: Icon(Icons.lightbulb),
             label: 'Color',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.access_time),
+            label: 'Light control',
           ),
         ],
         currentIndex: _selectedIndex,
