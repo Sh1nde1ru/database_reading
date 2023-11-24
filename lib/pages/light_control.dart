@@ -1,6 +1,5 @@
-import 'package:database_reading/util/hour.dart';
-import 'package:database_reading/util/minutes.dart';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class LightControl extends StatefulWidget {
   const LightControl({super.key});
@@ -18,35 +17,39 @@ class _LightControlState extends State<LightControl> {
           children: [
             Expanded(
               child: Container(
-                height: 100,
+                height: 120,
                 color: Colors.grey.shade400,
                 child: ListWheelScrollView.useDelegate(
                   itemExtent: 50,
                   perspective: 0.005,
                   diameterRatio: 1.2,
-                  physics: FixedExtentScrollPhysics(),
-                  childDelegate: ListWheelChildBuilderDelegate(
-                      childCount: 24,
-                      builder: (context, index) {
-                        return MyHours(hours: index);
-                      }),
+                  physics: const FixedExtentScrollPhysics(),
+                  childDelegate: ListWheelChildLoopingListDelegate(
+                      children: List<Widget>.generate(
+                          24,
+                          (index) => Text(
+                                '$index',
+                                style: TextStyle(fontSize: 40),
+                              ))),
+                  onSelectedItemChanged: (value) => playSound(),
                 ),
               ),
             ),
             Expanded(
               child: Container(
                 color: Colors.grey.shade400,
-                height: 100,
+                height: 120,
                 child: ListWheelScrollView.useDelegate(
-                  itemExtent: 50,
+                  itemExtent: 60,
                   perspective: 0.005,
                   diameterRatio: 1.2,
-                  physics: FixedExtentScrollPhysics(),
-                  childDelegate: ListWheelChildBuilderDelegate(
-                      childCount: 60,
-                      builder: (context, index) {
-                        return MyMinutes(mins: index);
-                      }),
+                  physics: const FixedExtentScrollPhysics(),
+                  childDelegate: ListWheelChildLoopingListDelegate(
+                      children: List<Widget>.generate(
+                          60,
+                          (index) =>
+                              Text('$index', style: TextStyle(fontSize: 40)))),
+                  onSelectedItemChanged: (value) => playSound(),
                 ),
               ),
             ),
@@ -54,5 +57,9 @@ class _LightControlState extends State<LightControl> {
         ),
       ),
     );
+  }
+
+  void playSound() async {
+    AudioPlayer().play(AssetSource('sounds/click_sound.wav'));
   }
 }
